@@ -36,3 +36,11 @@ Notes:
    Pipeline Maven Integration Plugin
 3. Plugins for JDK:
    Eclipse Temurin installer Plugin
+
+4. Plugins for Docker:
+   CloudBees Docker Build and Publish plugin
+   Docker API Plugin
+   Docker Commons Plugin
+   Docker Pipeline
+   Docker plugin
+   docker-build-step
