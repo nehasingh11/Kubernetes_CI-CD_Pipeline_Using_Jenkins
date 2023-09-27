@@ -84,3 +84,40 @@ Notes:
    Docker Pipeline
    Docker plugin
    docker-build-step
+
+ArgoCD
+
+Create two VMs in the same vnet
+Follow below steps on two VMs.
+
+1. sudo apt update
+   sudo apt upgrade
+
+2.sudo bash
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - --disable traefik
+exit
+mkdir .kube
+sudo cp /etc/rancher/k3s/k3s.yaml ./config
+sudo chown dmistry:dmistry config
+chmod 400 config
+export KUBECONFIG=~/.kube/config
+
+Install argoCD on one VM
+
+3. kubectl create namespace argocd
+   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+4. kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+5. kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+6. kubectl get svc -n argocd
+7. kubectl get pods -n argocd
+8. open the ports on the argoCD server to access using web browser
+
+9. Copy the content of /root/.kube/config from application vm (second node)
+10. create a new file on argoCD VM /root/.kube/app-cluster.yml and paste the content from above step.
+11. export KUBECONFIG=~/.kube/app-cluster.yml
+12. argocd login 172.172.147.8:30952 (use the ports shown in step 6)
+    username - admin
+    password - step 5 output
+13. Add the other VM
+    argocd cluster add default --name vm2
