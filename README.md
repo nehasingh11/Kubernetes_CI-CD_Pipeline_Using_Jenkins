@@ -85,6 +85,8 @@ Notes:
    Docker plugin
    docker-build-step
 
+5. Add token for Docker and github using username and password (generate token)
+
 ArgoCD
 
 Create two VMs in the same vnet
