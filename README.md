@@ -89,9 +89,7 @@ Follow below steps on two VMs.
 2.sudo bash
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - --disable traefik
 exit
-
 sudo adduser dmistry
-
 mkdir .kube
 cd .kube/
 sudo cp /etc/rancher/k3s/k3s.yaml ./config
@@ -113,8 +111,14 @@ Install argoCD on one VM
 9. Copy the content of /root/.kube/config from application vm (second node)
 10. create a new file on argoCD VM /root/.kube/app-cluster.yml and paste the content from above step. Change the ip of application VM
 11. export KUBECONFIG=~/.kube/app-cluster.yml
-12. argocd login 172.172.147.8:30952 (use the ports shown in step 6)
+12. Install ArgoCD command line tool
+
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+rm argocd-linux-amd64
+
+13. argocd login 172.172.147.8:30952 (use the ports shown in step 6)
     username - admin
     password - step 5 output
-13. Add the other VM
+14. Add the other VM
     argocd cluster add default --name vm2
