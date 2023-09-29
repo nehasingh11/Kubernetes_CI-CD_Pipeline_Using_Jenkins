@@ -90,6 +90,7 @@ Follow below steps on two VMs.
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - --disable traefik
 exit
 sudo adduser dmistry
+cd ~
 mkdir .kube
 cd .kube/
 sudo cp /etc/rancher/k3s/k3s.yaml ./config
