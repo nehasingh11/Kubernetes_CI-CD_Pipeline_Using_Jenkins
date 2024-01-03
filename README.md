@@ -123,3 +123,31 @@ rm argocd-linux-amd64
     password - step 5 output
 14. Add the other VM
     argocd cluster add default --name vm2
+
+
+================== Install Prometheus and Grafana===================
+1. Install Prometheus plugin in jenkins (Prometheus metrics plugin)
+2. Under manage jenkins -> system configuration -> prometheus -> edit the configuration if required
+3. This plugin will open an end point for Prometheus to extract the data i.e jenkinsIP:8080/prometheus (http://34.125.101.157:8080/prometheus/)
+4. Install Prometheus
+   docker run -d --name prometheus -p 9090:9090 prom/prometheus
+5. Install Grafana
+   docker run -d --name grafana -p 3000:3000 grafana/grafana
+6. Integrate Prometheus with jenkins:
+   enter into the prometheus container
+   docker exec -it 1654a707a6b2 /bin/sh
+   cd /etc/prometheus/
+   vi prometheus.yml -> edit the file
+
+    - job_name: "jenkins"
+    metrics_path: /prometheus
+    static_configs:
+     - targets: ["34.125.101.157:8080"]   (jenkins IP)
+8. docker restart 1654a707a6b2
+9. Access the prometheus on 9090
+10. Access grafana on 3000
+    - Add Data source
+    - Select Prometheus
+    - Give the Prometheus Server URL
+    - Save and Test
+    - create new dashboards 
